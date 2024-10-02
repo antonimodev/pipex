@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   check_fd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 11:49:18 by antonimo          #+#    #+#             */
-/*   Updated: 2024/10/02 14:20:59 by antonimo         ###   ########.fr       */
+/*   Created: 2024/10/02 14:10:48 by antonimo          #+#    #+#             */
+/*   Updated: 2024/10/02 14:11:08 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int ac, char **av)
+bool	fd_validation(const char *fd1, const char *fd2)
 {
-	ac--;
-	if (ac == 4)
+	if (access(fd1, F_OK) == 0)
 	{
-		av++;
-		if (!fd_validation(av[0], av[3]) || !cmd_validation(av[1], av[2]))
-		{
-			perror("No valid arguments");
-			exit(EXIT_FAILURE);
-		}
+		if (access(fd2, F_OK) == 0)
+			return (true);
 	}
-	else
-	{
-		printf("jeje");
-		exit(EXIT_FAILURE);
-	}
-	exit(EXIT_SUCCESS);
+	return (false);
 }

@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 11:49:18 by antonimo          #+#    #+#             */
-/*   Updated: 2024/10/02 14:20:59 by antonimo         ###   ########.fr       */
+/*   Created: 2024/10/02 14:03:40 by antonimo          #+#    #+#             */
+/*   Updated: 2024/10/02 14:26:20 by antonimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int ac, char **av)
+void	free_matrix(char **matrix)
 {
-	ac--;
-	if (ac == 4)
-	{
-		av++;
-		if (!fd_validation(av[0], av[3]) || !cmd_validation(av[1], av[2]))
-		{
-			perror("No valid arguments");
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-	{
-		printf("jeje");
-		exit(EXIT_FAILURE);
-	}
-	exit(EXIT_SUCCESS);
+	int	i;
+
+	i = 0;
+	while (matrix[i])
+		free(matrix[i++]);
+	free(matrix);
 }
