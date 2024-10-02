@@ -44,22 +44,34 @@ char	**split_path(char *envp)
 
 	splitted_path = ft_split(envp, ':');
 	if (!splitted_path)
+	{
+		perror("Error checking command routes\n");
 		exit(EXIT_FAILURE);
+	}
 	return (splitted_path);
 }
 
 /* Concatena cmd a cada str de la matriz */
 char	**concat_path(char **splitted_path, char *cmd)
 {
+	char	**full_path;
 	int		i;
 
 	i = 0;
 	while (splitted_path[i])
+		i++;
+	full_path = malloc((i + 1) * sizeof(char *));
+	if (!full_path)
+		return (NULL);
+	i = 0;
+	while (splitted_path[i])
 	{
-		splitted_path[i] = cmdcat(splitted_path[i], cmd);
+		full_path[i] = cmdcat(splitted_path[i], cmd);
+		printf("%s\n", full_path[i]);
 		i++;
 	}
-	return (splitted_path);
+	full_path[i] = NULL;
+	return (full_path);
 }
 
 /* Concatena S1 con S2 usando reserva (dinámica) con malloc.
@@ -71,6 +83,8 @@ char	*cmdcat(char *s1, char *s2)
 	int		j;
 	char	*cmdcat;
 
+	if (!s1 || !s2)
+        return (NULL);
 	i = 0;
 	j = 0;
 	cmdcat = malloc((ft_strlen(s1) + ft_strlen(s2) + 2) * sizeof(char));
@@ -82,11 +96,26 @@ char	*cmdcat(char *s1, char *s2)
 		i++;
 	}
 	cmdcat[i] = '/';
+	i++;
 	while (s2[j])
 		cmdcat[i++] = s2[j++];
 	cmdcat[i] = '\0';
 	return (cmdcat);
 }
+/* ALTERNATIVA PARA CMDCAT
+
+char	*cmdcat(char *s1, char *s2)
+{
+    char *cmdcat;
+    char *temp;
+
+    temp = ft_strjoin(s1, "/");
+    if (!temp)
+        return (NULL);
+    cmdcat = ft_strjoin(temp, s2);
+    free(temp);
+    return (cmdcat);
+}*/
 
 bool	path_validation(char **cmd_path)
 {

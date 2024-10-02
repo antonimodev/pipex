@@ -23,10 +23,11 @@ int	main(int ac, char **av)
 			perror("No valid arguments");
 			exit(EXIT_FAILURE);
 		}
+		printf("Argumentos válidos, se puede continuar\n");
 	}
 	else
 	{
-		printf("jeje");
+		perror("No valid arguments\n");
 		exit(EXIT_FAILURE);
 	}
 	exit(EXIT_SUCCESS);
