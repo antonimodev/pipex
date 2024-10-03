@@ -18,6 +18,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <sys/types.h>
 # include "../libft/libft.h"
 
 # ifndef LINUX_PATH
@@ -27,23 +28,33 @@
 
 # endif
 
-/* typedef	struct s_pipex
+# ifndef TOUCH_PATH
+#  define TOUCH_PATH "/usr/bin/touch"
+
+# endif
+
+typedef struct s_pipe
 {
 	int	read_pipe;
-	int write_pipe;
-}	t_pipex; */
+	int	write_pipe;
+}	t_pipe;
 
 /* CHECK_FD */
 bool	fd_validation(const char *fd1, const char *fd2);
 
 /* CHECK_CMD */
 bool	cmd_validation(char *cmd1, char *cmd2);
-char	**split_path(char *envp);
-char	**concat_path(char **splitted_path, char *cmd);
+char	**split_paths(char *envp);
+char	**concat_paths(char **splitted_paths, char *cmd);
 char	*cmdcat(char *s1, char *s2);
 bool	path_validation(char **cmd_path);
 
 /* PIPEX UTILS 	*/
+void	arg_validation(int ac, char **av);
+void	*exec_touch(const char *fd2);
 void	free_matrix(char **matrix);
+
+/* PIPES */
+t_pipe	create_pipe(void);
 
 #endif

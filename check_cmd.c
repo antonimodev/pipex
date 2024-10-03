@@ -16,21 +16,21 @@
 En caso de que exista y pueda ejecutarse devuelve True */
 bool	cmd_validation(char *cmd1, char *cmd2)
 {
-	char	**splitted_path;
+	char	**splitted_paths;
 	char	**cmd1_path;
 	char	**cmd2_path;
 	bool	res;
 
 	res = false;
-	splitted_path = split_path(LINUX_PATH);
-	cmd1_path = concat_path(splitted_path, cmd1);
-	cmd2_path = concat_path(splitted_path, cmd2);
+	splitted_paths = split_paths(LINUX_PATH);
+	cmd1_path = concat_paths(splitted_paths, cmd1);
+	cmd2_path = concat_paths(splitted_paths, cmd2);
 	if (path_validation(cmd1_path))
 	{
 		if (path_validation(cmd2_path))
 			res = true;
 	}
-	free_matrix(splitted_path);
+	free_matrix(splitted_paths);
 	free_matrix(cmd1_path);
 	free_matrix(cmd2_path);
 	return (res);
@@ -38,36 +38,35 @@ bool	cmd_validation(char *cmd1, char *cmd2)
 
 /* Spliteamos la macro definida en el .h que indica la variable
 de entorno PATH del sistema (LINUX) */
-char	**split_path(char *envp)
+char	**split_paths(char *envp)
 {
-	char	**splitted_path;
+	char	**splitted_paths;
 
-	splitted_path = ft_split(envp, ':');
-	if (!splitted_path)
+	splitted_paths = ft_split(envp, ':');
+	if (!splitted_paths)
 	{
 		perror("Error checking command routes\n");
 		exit(EXIT_FAILURE);
 	}
-	return (splitted_path);
+	return (splitted_paths);
 }
 
 /* Concatena cmd a cada str de la matriz */
-char	**concat_path(char **splitted_path, char *cmd)
+char	**concat_paths(char **splitted_paths, char *cmd)
 {
 	char	**full_path;
 	int		i;
 
 	i = 0;
-	while (splitted_path[i])
+	while (splitted_paths[i])
 		i++;
 	full_path = malloc((i + 1) * sizeof(char *));
 	if (!full_path)
 		return (NULL);
 	i = 0;
-	while (splitted_path[i])
+	while (splitted_paths[i])
 	{
-		full_path[i] = cmdcat(splitted_path[i], cmd);
-		printf("%s\n", full_path[i]);
+		full_path[i] = cmdcat(splitted_paths[i], cmd);
 		i++;
 	}
 	full_path[i] = NULL;
@@ -79,43 +78,18 @@ nos aseguramos de que añada '/' antes de concatenar el comando recibido
 por parámetro */
 char	*cmdcat(char *s1, char *s2)
 {
-	int		i;
-	int		j;
-	char	*cmdcat;
+	char	*cmd_concat;
+	char	*temp;
 
-	if (!s1 || !s2)
-        return (NULL);
-	i = 0;
-	j = 0;
-	cmdcat = malloc((ft_strlen(s1) + ft_strlen(s2) + 2) * sizeof(char));
-	if (!cmdcat)
+	temp = ft_strjoin(s1, "/");
+	if (!temp)
 		return (NULL);
-	while (s1[i])
-	{
-		cmdcat[i] = s1[i];
-		i++;
-	}
-	cmdcat[i] = '/';
-	i++;
-	while (s2[j])
-		cmdcat[i++] = s2[j++];
-	cmdcat[i] = '\0';
-	return (cmdcat);
+	cmd_concat = ft_strjoin(temp, s2);
+	free(temp);
+	return (cmd_concat);
 }
-/* ALTERNATIVA PARA CMDCAT
-
-char	*cmdcat(char *s1, char *s2)
-{
-    char *cmdcat;
-    char *temp;
-
-    temp = ft_strjoin(s1, "/");
-    if (!temp)
-        return (NULL);
-    cmdcat = ft_strjoin(temp, s2);
-    free(temp);
-    return (cmdcat);
-}*/
+/* Validación de que exista y permita la ejecución del comando
+recibido */
 
 bool	path_validation(char **cmd_path)
 {
