@@ -40,7 +40,7 @@ typedef struct s_pipe
 }	t_pipe;
 
 /* CHECK_FD */
-bool	fd_validation(const char *fd1, const char *fd2);
+bool	fd_validation(const char *file1, const char *file2);
 
 /* CHECK_CMD */
 bool	cmd_validation(char *cmd1, char *cmd2);
@@ -50,11 +50,16 @@ char	*cmdcat(char *s1, char *s2);
 bool	path_validation(char **cmd_path);
 
 /* PIPEX UTILS 	*/
-void	arg_validation(int ac, char **av);
-void	*exec_touch(const char *fd2);
+void	validate_arguments(int ac, char **av);
+char	*get_path(char **cmd_paths);
+char	**create_matrix(int n);
 void	free_matrix(char **matrix);
 
 /* PIPES */
 t_pipe	create_pipe(void);
+
+/* EXEC */
+void	exec_cmd_to_file(int file, char *cmd);
+void	*exec_touch(const char *file);
 
 #endif

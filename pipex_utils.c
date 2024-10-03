@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-void	arg_validation(int ac, char **av)
+void	validate_arguments(int ac, char **av)
 {
 	ac--;
 	if (ac == 4)
@@ -31,25 +31,42 @@ void	arg_validation(int ac, char **av)
 	}
 }
 
-void	*exec_touch(const char *fd2)
+/* Devuelve un str de la ruta exacta del comando */
+char	*get_path(char **cmd_paths)
 {
-	char	**touch_matrix;
+	char	*cmd_dir;
+	int	i;
 
-	touch_matrix = malloc((3 + 1) * sizeof(char *));
-	if (!touch_matrix)
-		return (NULL);
-	touch_matrix[0] = "touch";
-	touch_matrix[1] = (char *)fd2;
-	touch_matrix[2] = NULL;
-	touch_matrix[3] = NULL;
-	if (execve(TOUCH_PATH, touch_matrix, NULL) == -1)
+	i = 0;
+	while (cmd_paths[i])
 	{
-		free_matrix(touch_matrix);
-		perror("Error creating a file");
-		exit(EXIT_FAILURE);
+		if (access(cmd_paths[i], F_OK | X_OK) == 0)
+		{
+			cmd_dir = ft_strdup(cmd_paths[i]);
+			return (cmd_dir);
+		}
+		i++;
 	}
-	free_matrix(touch_matrix);
 	return (NULL);
+}
+
+char	**create_matrix(int n)
+{
+	char	**matrix;
+
+	if (n < 0)
+	{
+		perror("create_matrix: Parameter must be positive");
+		return (NULL);
+	}
+	matrix = malloc((n + 1) * sizeof(char *));
+	if (!matrix)
+	{
+		perror("create_matrix: Error allocating matrix memory");
+		return (NULL);
+	}
+	ft_memset(matrix, 0, (n + 1) * sizeof(char *));
+	return (matrix);
 }
 
 void	free_matrix(char **matrix)
@@ -57,7 +74,10 @@ void	free_matrix(char **matrix)
 	int	i;
 
 	i = 0;
-	while (matrix[i])
-		free(matrix[i++]);
-	free(matrix);
+	if (matrix)
+	{
+		while (matrix[i])
+			free(matrix[i++]);
+		free(matrix);
+	}
 }
