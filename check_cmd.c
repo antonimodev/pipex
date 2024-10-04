@@ -58,12 +58,9 @@ char	**concat_paths(char **splitted_paths, char *cmd)
 	int		i;
 
 	i = 0;
-	while (splitted_paths[i])
-		i++;
-	full_path = malloc((i + 1) * sizeof(char *));
+	full_path = malloc((ft_matrixlen(splitted_paths) + 1) * sizeof(char *));
 	if (!full_path)
 		return (NULL);
-	i = 0;
 	while (splitted_paths[i])
 	{
 		full_path[i] = cmdcat(splitted_paths[i], cmd);

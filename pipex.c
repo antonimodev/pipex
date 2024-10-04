@@ -29,7 +29,7 @@ int	main(int ac, char **av)
 	//debe usar la pipe para leer la salida de child
 	exit(EXIT_SUCCESS);
 }
-void	child(char **av, int *p_fd, char **env)
+/* void	child(char **av, int *p_fd, char **env)
 {
 	int		fd;
 
@@ -39,3 +39,4 @@ void	child(char **av, int *p_fd, char **env)
 	close(p_fd[0]);
 	exec(av[2], env);
 }
+ */

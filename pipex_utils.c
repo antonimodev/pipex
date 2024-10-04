@@ -15,9 +15,9 @@
 void	validate_arguments(int ac, char **av)
 {
 	ac--;
+	av++;
 	if (ac == 4)
 	{
-		av++;
 		if (!fd_validation(av[0], av[3]) || !cmd_validation(av[1], av[2]))
 		{
 			perror("No valid arguments");
@@ -35,7 +35,7 @@ void	validate_arguments(int ac, char **av)
 char	*get_path(char **cmd_paths)
 {
 	char	*cmd_dir;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (cmd_paths[i])
@@ -80,4 +80,14 @@ void	free_matrix(char **matrix)
 			free(matrix[i++]);
 		free(matrix);
 	}
+}
+// METERLO AL .H Y ORDENARLO
+int	ft_matrixlen(char **matrix)
+{
+	int	i;
+
+	i = 0;
+	while (matrix[i])
+		i++;
+	return (i);
 }
