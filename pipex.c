@@ -22,21 +22,26 @@ int	main(int ac, char **av)
 	child = fork();
 	if (child == 0)
 	{
-		//abrir un fd en modo lectura
-		//debe usar la pipe para escribir y darle salida a padre	
+		dup2();
+		exec_cmd_to_file(av[0], av[1]);
 	}
-	//proceso padre: abre fd en modo escritura
-	//debe usar la pipe para leer la salida de child
+	dup2();
+	exec_cmd_to_file();
 	exit(EXIT_SUCCESS);
 }
-/* void	child(char **av, int *p_fd, char **env)
-{
-	int		fd;
 
-	fd = open_file(av[1], 0);
-	dup2(fd, 0);
-	dup2(p_fd[1], 1);
-	close(p_fd[0]);
-	exec(av[2], env);
+void	open_file(char *file, enum e_mode mode)
+{
+	int	fd;
+
+	if (mode == R_MODE)
+		fd = open(file, O_RDONLY);
+	else
+		fd = open(file, O_WRONLY | O_TRUNC, 0644); // No estoy seguro si debe tener estos permisos y si debe aplicarse O_TRUNC (dejar el archivo a 0 bytes)
+	if (fd == -1)
+	{
+		perror("open_file: Error opening file");
+		exit(EXIT_FAILURE);
+	}
+	return (fd);
 }
- */

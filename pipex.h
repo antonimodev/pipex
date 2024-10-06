@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <sys/types.h>
+# include <fcntl.h>
 # include "../libft/libft.h"
 
 # ifndef LINUX_PATH
@@ -32,6 +33,12 @@
 #  define TOUCH_PATH "/usr/bin/touch"
 
 # endif
+
+enum e_mode
+{
+	R_MODE,
+	W_MODE,
+};
 
 typedef struct s_pipe
 {

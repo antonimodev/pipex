@@ -3,7 +3,7 @@
 /* Función que recibe un archivo y un comando. Busca
 la ruta del cmd para poder ejecutarlo en el archivo con
 execve. */
-void	exec_cmd_to_file(int file, char *cmd)
+void	exec_cmd_to_file(char *file, char *cmd)
 {
 	char	**splitted_paths;
 	char	**cmd_paths;
