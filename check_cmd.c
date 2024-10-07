@@ -19,12 +19,16 @@ bool	cmd_validation(char *cmd1, char *cmd2)
 	char	**splitted_paths;
 	char	**cmd1_path;
 	char	**cmd2_path;
+	char	**cmd;
 	bool	res;
 
 	res = false;
 	splitted_paths = split_paths(LINUX_PATH);
-	cmd1_path = concat_paths(splitted_paths, cmd1);
-	cmd2_path = concat_paths(splitted_paths, cmd2);
+	cmd = ft_split(cmd1, ' ');
+	cmd1_path = concat_paths(splitted_paths, cmd[0]);
+	free(cmd);
+	cmd = ft_split(cmd2, ' ');
+	cmd2_path = concat_paths(splitted_paths, cmd[0]);
 	if (path_validation(cmd1_path))
 	{
 		if (path_validation(cmd2_path))
@@ -33,6 +37,7 @@ bool	cmd_validation(char *cmd1, char *cmd2)
 	free_matrix(splitted_paths);
 	free_matrix(cmd1_path);
 	free_matrix(cmd2_path);
+	free(cmd);
 	return (res);
 }
 

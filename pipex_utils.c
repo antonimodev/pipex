@@ -14,19 +14,17 @@
 
 void	validate_arguments(int ac, char **av)
 {
-	ac--;
-	av++;
 	if (ac == 4)
 	{
 		if (!fd_validation(av[0], av[3]) || !cmd_validation(av[1], av[2]))
 		{
-			perror("No valid arguments");
+			perror("fd_or_cmd: No valid arguments");
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		perror("No valid arguments\n");
+		perror("Write 4 arguments!\n");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -50,44 +48,18 @@ char	*get_path(char **cmd_paths)
 	return (NULL);
 }
 
-char	**create_matrix(int n)
+int	open_file(char *file, enum e_mode mode)
 {
-	char	**matrix;
+	int	fd;
 
-	if (n < 0)
+	if (mode == READ)
+		fd = open(file, O_RDONLY);
+	else
+		fd = open(file, O_WRONLY | O_TRUNC, 0644); // No estoy seguro si debe tener estos permisos y si debe aplicarse O_TRUNC (dejar el archivo a 0 bytes)
+	if (fd == -1)
 	{
-		perror("create_matrix: Parameter must be positive");
-		return (NULL);
+		perror("open_file: Error opening file");
+		exit(EXIT_FAILURE);
 	}
-	matrix = malloc((n + 1) * sizeof(char *));
-	if (!matrix)
-	{
-		perror("create_matrix: Error allocating matrix memory");
-		return (NULL);
-	}
-	ft_memset(matrix, 0, (n + 1) * sizeof(char *));
-	return (matrix);
-}
-
-void	free_matrix(char **matrix)
-{
-	int	i;
-
-	i = 0;
-	if (matrix)
-	{
-		while (matrix[i])
-			free(matrix[i++]);
-		free(matrix);
-	}
-}
-// METERLO AL .H Y ORDENARLO
-int	ft_matrixlen(char **matrix)
-{
-	int	i;
-
-	i = 0;
-	while (matrix[i])
-		i++;
-	return (i);
+	return (fd);
 }

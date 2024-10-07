@@ -20,7 +20,7 @@
 # include <stdbool.h>
 # include <sys/types.h>
 # include <fcntl.h>
-# include "../libft/libft.h"
+# include "./lib/libft/libft.h"
 
 # ifndef LINUX_PATH
 #  define LINUX_PATH "/home/antonimo/.pyenv/shims:/home/antonimo/.pyenv/bin:\
@@ -36,8 +36,8 @@
 
 enum e_mode
 {
-	R_MODE,
-	W_MODE,
+	READ,
+	WRITE,
 };
 
 typedef struct s_pipe
@@ -62,11 +62,23 @@ char	*get_path(char **cmd_paths);
 char	**create_matrix(int n);
 void	free_matrix(char **matrix);
 
+/* MATRIX UTILS*/
+char	**create_matrix(int n);
+void	free_matrix(char **matrix);
+int		ft_matrixlen(char **matrix);
+
 /* PIPES */
 t_pipe	create_pipe(void);
 
 /* EXEC */
-void	exec_cmd_to_file(int file, char *cmd);
+void	exec_cmd_to_file(char *cmd_arg);
 void	*exec_touch(const char *file);
+
+/* PROCESS */
+void	ft_child(int fd, t_pipe pipe, char *cmd);
+void	ft_parent(int fd, t_pipe pipe, char *cmd);
+
+/**/
+int		open_file(char *file, enum e_mode mode);
 
 #endif

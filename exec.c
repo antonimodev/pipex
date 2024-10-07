@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antonimo <antonimo@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/07 09:48:54 by antonimo          #+#    #+#             */
+/*   Updated: 2024/10/07 09:48:54 by antonimo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 /* Función que recibe un archivo y un comando. Busca
 la ruta del cmd para poder ejecutarlo en el archivo con
 execve. */
-void	exec_cmd_to_file(char *cmd, char *cmd_args)
+void	exec_cmd_to_file(char *cmd_arg)
 {
 	char	**splitted_paths;
 	char	**cmd_paths;
@@ -11,18 +23,16 @@ void	exec_cmd_to_file(char *cmd, char *cmd_args)
 	char	**matrix_for_exec;
 
 	splitted_paths = split_paths(LINUX_PATH);
-	cmd_paths = concat_paths(splitted_paths, cmd);
+	matrix_for_exec = ft_split(cmd_arg, ' ');
+	cmd_paths = concat_paths(splitted_paths, matrix_for_exec[0]);
 	cmd_dir = get_path(cmd_paths);
-	matrix_for_exec = create_matrix(3);
-	matrix_for_exec[0] = cmd;
-	matrix_for_exec[1] = cmd_args;
-	if (execve(cmd_dir, matrix_for_exec, NULL) == -1) // execve reemplaza el proceso, no es necesario liberar exceptuando en caso de error
+	if (execve(cmd_dir, matrix_for_exec, NULL) == -1)
 	{
 		free(cmd_dir);
 		free_matrix(cmd_paths);
 		free_matrix(splitted_paths);
 		free_matrix(matrix_for_exec);
-		perror("Error executing first command");
+		perror("execve: error executing commands");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -41,7 +51,7 @@ void	*exec_touch(const char *file)
 	if (execve(TOUCH_PATH, touch_matrix, NULL) == -1)
 	{
 		free_matrix(touch_matrix);
-		perror("Error creating a file");
+		perror("exec_touch: Error creating a file");
 		exit(EXIT_FAILURE);
 	}
 	return (NULL);

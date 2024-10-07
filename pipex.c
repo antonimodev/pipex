@@ -17,39 +17,22 @@ int	main(int ac, char **av)
 	t_pipe	pipe;
 	pid_t	child;
 
+	ac--;
+	av++;
 	validate_arguments(ac, av);
+	printf("SE HA VALIDADO CORRECTAMENTE\n");
 	pipe = create_pipe();
+	printf("SE HA CREADO LA PIPE\n");
 	child = fork();
-	if (child == 0)
+	if (child == -1)
 	{
-		if (dup2() == -1)
-		{
-			perror("dup2: Error duplicating file descriptors");
-			exit(EXIT_FAILURE);
-		}
-		exec_cmd_to_file(av[0], av[1]);
-	}
-	if (dup2() == -1)
-	{
-		perror("dup2: Error duplicating file descriptors");
+		printf("fork ha fallado en el proceso hijo\n");
 		exit(EXIT_FAILURE);
 	}
-	exec_cmd_to_file();
+	else if (child == 0)
+		ft_child(open_file(av[0], WRITE), pipe, av[1]);
+	wait(NULL);
+	ft_parent(open_file(av[3], READ), pipe, av[2]);
+	printf("se ha hecho la funcion parent");
 	exit(EXIT_SUCCESS);
-}
-
-void	open_file(char *file, enum e_mode mode)
-{
-	int	fd;
-
-	if (mode == R_MODE)
-		fd = open(file, O_RDONLY);
-	else
-		fd = open(file, O_WRONLY | O_TRUNC, 0644); // No estoy seguro si debe tener estos permisos y si debe aplicarse O_TRUNC (dejar el archivo a 0 bytes)
-	if (fd == -1)
-	{
-		perror("open_file: Error opening file");
-		exit(EXIT_FAILURE);
-	}
-	return (fd);
 }
