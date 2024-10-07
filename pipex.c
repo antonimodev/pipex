@@ -22,10 +22,18 @@ int	main(int ac, char **av)
 	child = fork();
 	if (child == 0)
 	{
-		dup2();
+		if (dup2() == -1)
+		{
+			perror("dup2: Error duplicating file descriptors");
+			exit(EXIT_FAILURE);
+		}
 		exec_cmd_to_file(av[0], av[1]);
 	}
-	dup2();
+	if (dup2() == -1)
+	{
+		perror("dup2: Error duplicating file descriptors");
+		exit(EXIT_FAILURE);
+	}
 	exec_cmd_to_file();
 	exit(EXIT_SUCCESS);
 }

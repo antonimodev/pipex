@@ -3,7 +3,7 @@
 /* Función que recibe un archivo y un comando. Busca
 la ruta del cmd para poder ejecutarlo en el archivo con
 execve. */
-void	exec_cmd_to_file(char *file, char *cmd)
+void	exec_cmd_to_file(char *cmd, char *cmd_args)
 {
 	char	**splitted_paths;
 	char	**cmd_paths;
@@ -15,7 +15,7 @@ void	exec_cmd_to_file(char *file, char *cmd)
 	cmd_dir = get_path(cmd_paths);
 	matrix_for_exec = create_matrix(3);
 	matrix_for_exec[0] = cmd;
-	matrix_for_exec[1] = file;
+	matrix_for_exec[1] = cmd_args;
 	if (execve(cmd_dir, matrix_for_exec, NULL) == -1) // execve reemplaza el proceso, no es necesario liberar exceptuando en caso de error
 	{
 		free(cmd_dir);
