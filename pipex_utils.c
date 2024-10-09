@@ -55,7 +55,7 @@ int	open_file(char *file, enum e_mode mode)
 	if (mode == READ)
 		fd = open(file, O_RDONLY);
 	else
-		fd = open(file, O_WRONLY | O_TRUNC, 0644); // No estoy seguro si debe tener estos permisos y si debe aplicarse O_TRUNC (dejar el archivo a 0 bytes)
+		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		perror("open_file: Error opening file");

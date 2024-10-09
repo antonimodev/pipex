@@ -19,10 +19,10 @@ bool	fd_validation(const char *file1, const char *file2)
 	{
 		if (access(file2, F_OK | W_OK) == -1)
 		{
-			exec_touch(file2);
-			printf("FD NO EXISTIA, SE HA CREADO");
+			exec_touch(file2); // ocuparse de esto, debe crear sin exec
+			return (true);
 		}
-		printf("FD VÁLIDO");
+		printf("FD VÁLIDO\n");
 		return (true);
 	}
 	return (false);

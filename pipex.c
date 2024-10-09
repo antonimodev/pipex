@@ -26,13 +26,12 @@ int	main(int ac, char **av)
 	child = fork();
 	if (child == -1)
 	{
-		printf("fork ha fallado en el proceso hijo\n");
+		perror("fork: error at child process\n");
 		exit(EXIT_FAILURE);
 	}
 	else if (child == 0)
-		ft_child(open_file(av[0], WRITE), pipe, av[1]);
-	wait(NULL);
-	ft_parent(open_file(av[3], READ), pipe, av[2]);
+		child_process(av, pipe, av[1]);
+	parent_process(av, pipe, av[2]);
 	printf("se ha hecho la funcion parent");
 	exit(EXIT_SUCCESS);
 }

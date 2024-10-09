@@ -71,12 +71,12 @@ int		ft_matrixlen(char **matrix);
 t_pipe	create_pipe(void);
 
 /* EXEC */
-void	exec_cmd_to_file(char *cmd_arg);
+void	exec_cmd(char *cmd_arg);
 void	*exec_touch(const char *file);
 
 /* PROCESS */
-void	ft_child(int fd, t_pipe pipe, char *cmd);
-void	ft_parent(int fd, t_pipe pipe, char *cmd);
+void	child_process(char **av, t_pipe pipe, char *cmd);
+void	parent_process(char **av, t_pipe pipe, char *cmd);
 
 /**/
 int		open_file(char *file, enum e_mode mode);
