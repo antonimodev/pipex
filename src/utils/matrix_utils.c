@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../../include/pipex.h"
 
 char	**create_matrix(int n)
 {

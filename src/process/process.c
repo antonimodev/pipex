@@ -10,42 +10,36 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../../include/pipex.h"
 
-void	child_process(char **av, t_pipe pipe, char *cmd)
+void	child_process(char **av, t_pipe pipe, char *cmd, pid_t child)
 {
 	int	fd;
 
-	fd = open_file(av[0], 0);
-	if (dup2(fd, STDIN_FILENO) == -1)
+	if (child == -1)
 	{
-		perror("dup2: error duplicating fd to STDIN");
+		perror("fork: error at child process");
 		exit(EXIT_FAILURE);
 	}
-	if (dup2(pipe.write_pipe, STDOUT_FILENO) == -1)
+	else if (child == 0)
 	{
-		perror("dup2: error duplicating pipe to STDOUT");
-		exit(EXIT_FAILURE);
+		fd = open_file(av[0], READ);
+		fd_redirection(STDOUT_FILENO, pipe.write_pipe);
+		fd_redirection(STDIN_FILENO, fd);
+		close(pipe.read_pipe);
+		close(pipe.write_pipe);
+		exec_cmd(cmd);
 	}
-	close(pipe.read_pipe);
-	exec_cmd(cmd);
 }
 
 void	parent_process(char **av, t_pipe pipe, char *cmd)
 {
 	int	fd;
 
-	fd = open_file(av[3], 1);
-	if (dup2(fd, STDOUT_FILENO) == -1)
-	{
-		perror("dup2: error duplicating fd to STDOUT");
-		exit(EXIT_FAILURE);
-	}
-	if (dup2(pipe.read_pipe, STDIN_FILENO) == -1)
-	{
-		perror("dup2: error duplicating pipe to STDIN");
-		exit(EXIT_FAILURE);
-	}
+	fd = open_file(av[3], WRITE);
+	fd_redirection(STDIN_FILENO, pipe.read_pipe);
+	fd_redirection(STDOUT_FILENO, fd);
 	close(pipe.write_pipe);
+	close(pipe.read_pipe);
 	exec_cmd(cmd);
 }
