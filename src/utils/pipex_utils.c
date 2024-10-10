@@ -17,14 +17,11 @@ void	validate_arguments(int ac, char **av)
 	if (ac == 4)
 	{
 		if (!fd_validation(av[0]) || !cmd_validation(av[1], av[2]))
-		{
-			perror("fd_or_cmd: No valid arguments");
 			exit(EXIT_FAILURE);
-		}
 	}
 	else
 	{
-		ft_putstr_fd("write in this format: ./pipex infile cmd1 cmd2 outfile\n", 2);
+		ft_putstr_fd("invalid format: ./pipex infile cmd1 cmd2 outfile\n", 2);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -70,4 +67,18 @@ void	fd_redirection(int from, int to)
 		perror("dup2: error duplicating fd");
 		exit(EXIT_FAILURE);
 	}
+}
+
+void	error_msg(char *cmd)
+{
+	char	*error_msg;
+	char	*test;
+
+	error_msg = ft_strdup("command not found: ");
+	test = ft_strjoin(error_msg, cmd);
+	free(error_msg);
+	error_msg = ft_strjoin(test, "\n");
+	ft_putstr_fd(error_msg, 2);
+	free(test);
+	free(error_msg);
 }

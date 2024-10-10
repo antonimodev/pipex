@@ -23,8 +23,7 @@
 # include "../lib/libft/libft.h"
 
 # ifndef LINUX_PATH
-#  define LINUX_PATH "/home/antonimo/.pyenv/shims:/home/antonimo/.pyenv/bin:\
-/home/antonimo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:\
+#  define LINUX_PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:\
 /bin:/usr/games:/usr/local/games:/snap/bin"
 
 # endif
@@ -46,7 +45,7 @@ bool	cmd_validation(char *cmd1, char *cmd2);
 char	**split_paths(char *envp);
 char	**concat_paths(char **splitted_paths, char *cmd);
 char	*cmdcat(char *s1, char *s2);
-bool	path_validation(char **cmd_path);
+bool	path_validation(char **cmd_path, char *cmd);
 
 /* CHECK_FD */
 bool	fd_validation(const char *file1);
@@ -67,6 +66,7 @@ void	validate_arguments(int ac, char **av);
 char	*get_path(char **cmd_paths);
 int		open_file(char *file, enum e_mode mode);
 void	fd_redirection(int from, int to);
+void	error_msg(char *cmd);
 
 /* PROCESS */
 void	child_process(char **av, t_pipe pipe, char *cmd, pid_t child);
