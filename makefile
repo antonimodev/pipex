@@ -45,12 +45,15 @@ $(NAME): $(PIPEX_OBJ) $(LIBFT_FILE)
 clean:
 	@$(RM) obj
 	@$(RM) $(LIBFT_DIR)/*.o
+	@$(RM) $(LIBFT_DIR)/.DS_Store
+	@$(RM) $(LIBFT_DIR)/.vscode
 	@echo Objects removed
 
 fclean: clean
 	@$(RM) $(NAME)
 	@$(RM) $(LIBFT_FILE)
-	@$(RM) *.vscode
+	@$(RM) .vscode
+	@$(RM) .DS_Store
 	@echo Executable removed
 
 re: fclean all
