@@ -50,6 +50,10 @@ bool	path_validation(char **cmd_path, char *cmd);
 /* CHECK_FD */
 bool	fd_validation(const char *file1);
 
+/* ERROR */
+void	error_cmd(char *cmd);
+void	error_fd(const char *file);
+
 /* EXEC */
 void	exec_cmd(char *cmd_arg);
 
@@ -66,7 +70,7 @@ void	validate_arguments(int ac, char **av);
 char	*get_path(char **cmd_paths);
 int		open_file(char *file, enum e_mode mode);
 void	fd_redirection(int from, int to);
-void	error_msg(char *cmd);
+void	error_cmd(char *cmd);
 
 /* PROCESS */
 void	child_process(char **av, t_pipe pipe, char *cmd, pid_t child);

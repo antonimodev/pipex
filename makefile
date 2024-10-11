@@ -19,6 +19,7 @@ PIPEX_SRC	= src/pipex.c \
               src/utils/pipex_utils.c \
               src/utils/check_cmd.c \
               src/utils/check_fd.c \
+			  src/utils/error.c \
               src/utils/exec.c \
               src/utils/matrix_utils.c \
               src/utils/pipes.c

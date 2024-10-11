@@ -68,17 +68,3 @@ void	fd_redirection(int from, int to)
 		exit(EXIT_FAILURE);
 	}
 }
-
-void	error_msg(char *cmd)
-{
-	char	*error_msg;
-	char	*test;
-
-	error_msg = ft_strdup("command not found: ");
-	test = ft_strjoin(error_msg, cmd);
-	free(error_msg);
-	error_msg = ft_strjoin(test, "\n");
-	ft_putstr_fd(error_msg, 2);
-	free(test);
-	free(error_msg);
-}

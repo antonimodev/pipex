@@ -94,6 +94,6 @@ bool	path_validation(char **cmd_path, char *cmd)
 			return (true);
 		i++;
 	}
-	error_msg(cmd);
+	error_cmd(cmd);
 	return (false);
 }

@@ -16,6 +16,6 @@ bool	fd_validation(const char *file1)
 {
 	if (access(file1, F_OK | R_OK) == 0)
 		return (true);
-	perror("fd");
+	error_fd(file1);
 	return (false);
 }
